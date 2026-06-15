@@ -25,6 +25,7 @@ class UserManager(models.Manager):
 
     def validate_registration(self, data):
         errors = {}
+        birthday_obj = None
         if not data.get('first_name', ''):
             errors['first_name'] = 'First Name is required'
         if not data.get('last_name', ''):
@@ -33,6 +34,7 @@ class UserManager(models.Manager):
         if not data.get('birthday'):
             errors['birthday'] = "Birthday is required."
         else:
+            birthday_obj = None
             try:
                 birthday_obj = datetime.strptime(data['birthday'], '%Y-%m-%d').date()
             except ValueError:

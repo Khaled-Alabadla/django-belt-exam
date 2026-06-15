@@ -1,6 +1,5 @@
 from django.shortcuts import render, redirect
 from django.contrib import messages
-from .forms import RegistrationForm, LoginForm
 from .models import User
 
 def register_view(request):
@@ -17,16 +16,32 @@ def register_view(request):
 
 
 def login_view(request):
+        # Always process login attempts on POST even if a session exists.
         if request.method == 'POST':
-                email = request.POST.get('email', '')
-                password = request.POST.get('password', '')
-                errors, user = User.objects.validate_login(email, password)
-                if user:
-                    request.session['user_id'] = user.id
-                    return redirect('/')
+            email = request.POST.get('email', '').strip()
+            password = request.POST.get('password', '')
+
+            if not email or not password:
+                messages.error(request, "Email and password are required.")
+                return redirect('login')
+
+            errors, user = User.objects.validate_login(email, password)
+            if user:
+                request.session['user_id'] = user.id
+                return redirect('games:dashboard')
+
+            # Show any validation errors returned by the manager, otherwise a generic message
+            if errors:
+                for msg in errors.values():
+                    messages.error(request, msg)
+            else:
                 messages.error(request, "Invalid username or password.")
-                return redirect('/games')
-                
+            return redirect('login')
+
+        # GET requests: if already logged in, redirect to dashboard
+        if request.session.get('user_id'):
+            return redirect('games:dashboard')
+
         return render(request, 'accounts/login.html')
 
 def logout_view(request):

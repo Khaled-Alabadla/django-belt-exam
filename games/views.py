@@ -9,7 +9,7 @@ from accounts.models import User
 
 
 def dashboard(request):
-    if not is_logged_in:
+    if not is_logged_in(request):
         return redirect('login')
     games = Game.objects.order_by('-created_at')
     return render(request, 'games/dashboard.html', {'games': games})
