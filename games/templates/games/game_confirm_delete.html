@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block title %}
+  Delete Game
+{% endblock %}
+
+{% block content %}
+  <div class="card shadow-sm p-3">
+    <h2>Delete Game</h2>
+    <p>
+      To confirm deletion, type the game title: <strong>{{ game.title }}</strong>
+    </p>
+    <form method="post">
+      {% csrf_token %}
+      <div>{{ form.confirm_title }}</div>
+      {% if form.errors %}
+        <div class="text-danger small">{{ form.errors|striptags }}</div>
+      {% endif %}
+      <button class="btn btn-danger mt-3" type="submit">Delete</button>
+      <a href="{% url 'games:dashboard' %}" class="btn btn-secondary mt-3">Cancel</a>
+    </form>
+  </div>
+{% endblock %}

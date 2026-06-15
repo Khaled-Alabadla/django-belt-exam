@@ -44,6 +44,7 @@ media
 # IntelliJ
 out/
 
+
 # JIRA plugin
 atlassian-ide-plugin.xml
 
@@ -138,3 +139,4 @@ GitHub.sublime-settings
 !.vscode/launch.json 
 !.vscode/extensions.json 
 .history
+.qodo

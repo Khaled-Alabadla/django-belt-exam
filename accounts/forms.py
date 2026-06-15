@@ -9,11 +9,13 @@ class RegistrationForm(forms.ModelForm):
     
     class Meta:
         model = User
-        fields = ['username', 'email', 'password']
+        fields = ['first_name', 'last_name', 'email', 'password']
         widgets = {
-            'username': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Username'}),
+            'first_name': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'First Name'}),
+            'last_name': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Last Name'}),
             'email': forms.EmailInput(attrs={'class': 'form-control', 'placeholder': 'Email'}),
         }
+        pass
 
     def clean_email(self):
         email = self.cleaned_data.get('email')
@@ -24,6 +26,7 @@ class RegistrationForm(forms.ModelForm):
         if User.objects.filter(email=email).exists():
             raise ValidationError("Email already exists.")
         return email
+    
 
     def clean(self):
         cleaned_data = super().clean()
@@ -35,8 +38,7 @@ class RegistrationForm(forms.ModelForm):
         return cleaned_data
 
 class LoginForm(forms.Form):
-    username = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Username'}))
-    # email = forms.EmailField(widget=forms.EmailInput(attrs={'class': 'form-control', 'placeholder': 'Email Address'}))
+    email = forms.EmailField(widget=forms.EmailInput(attrs={'class': 'form-control', 'placeholder': 'Email Address'}))
     password = forms.CharField(widget=forms.PasswordInput(attrs={'class': 'form-control', 'placeholder': 'Password'}))
 
 

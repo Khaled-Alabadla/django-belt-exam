@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+{% block title %}
+  Game
+{% endblock %}
+
+{% block content %}
+  <div class="card shadow-sm p-3">
+    <h2 class="mb-3">{{ action }} Game</h2>
+    <div id="validation-errors"></div>
+    <form id="game-form" method="post" enctype="multipart/form-data">
+      {% csrf_token %}
+      {% for field in form %}
+        <div class="mb-3">
+          <label class="form-label">{{ field.label }}</label>
+          {{ field }}
+          {% if field.help_text %}
+            <div class="form-text">{{ field.help_text }}</div>
+          {% endif %}
+          {% if field.errors %}
+            <div class="text-danger small">{{ field.errors|striptags }}</div>
+          {% endif %}
+        </div>
+      {% endfor %}
+      <button class="btn btn-primary" type="submit">{{ action }}</button>
+      <a href="{% url 'games:dashboard' %}" class="btn btn-secondary">Cancel</a>
+    </form>
+  </div>
+{% endblock %}

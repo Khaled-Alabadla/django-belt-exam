@@ -1,0 +1,9 @@
+<nav class="navbar navbar-expand-lg navbar-white bg-white border-bottom">
+  <div class="container">
+    <a class="navbar-brand" href="{% url 'games:dashboard' %}">Games</a>
+    <div class="d-flex align-items-center">
+      <a class="btn btn-outline-secondary me-2" href="{% url 'games:create' %}">Add Game</a>
+      <a class="btn btn-outline-danger" href="{% url 'logout' %}">Logout</a>
+    </div>
+  </div>
+</nav>

@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+{% block title %}
+  {{ action }} Game
+{% endblock %}
+
+{% block content %}
+  <div class="card shadow-sm p-3">
+    <h2 class="mb-3">Game Details</h2>
+
+    <h3>Name: {{ game.name }}</h3>
+    <p>Release Date: {{ game.release_date }}</p>
+    <p>Description: {{ game.description }}</p>
+    <p>Category: {{ game.category.name }}</p>
+  </div>
+
+  <div class="">
+    <div class="card">
+      <div class="card-body">
+        <h5 class="card-title">Users Who Like This Book</h5>
+        <ul class="list-group list-group-flush">
+          <li class="list-group-item d-flex justify-content-between align-items-center">
+            {% for user in game.users.all %}
+              <a href="{% url 'profile' user.id %}"><span>{{ user.first_name }} {{ user.first_name }}</span></a>
+            {% endfor %}
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+{% endblock %}
